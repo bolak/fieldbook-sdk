@@ -9,4 +9,4 @@ notifications:
     recipients:
       - hello@seanbolak.com
     on_failure: change
-    on_success: never  
+    on_success: never        

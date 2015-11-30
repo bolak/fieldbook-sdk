@@ -9,10 +9,10 @@ module Fieldbook
       self.class.basic_auth username, password
     end
 
-    def get_sheet(sheet_name, item_id = nil)
+    def get_sheet(sheet_name, record_id = nil)
 
-      if item_id
-        self.class.get "/#{sheet_name}/#{item_id}.json"
+      if record_id
+        self.class.get "/#{sheet_name}/#{record_id}.json"
       else
         self.class.get "/#{sheet_name}.json"
       end
@@ -23,5 +23,18 @@ module Fieldbook
       self.class.get "/"
     end
 
+    def delete_record(sheet_name, record_id)
+      self.class.delete "/#{sheet_name}/#{record_id}.json"
+    end
+
+    def create_record(sheet_name, properties)
+      data = {
+        body: properties.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      }
+      self.class.post "/#{sheet_name}.json", data
+    end
   end
 end

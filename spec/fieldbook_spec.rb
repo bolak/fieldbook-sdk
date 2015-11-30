@@ -21,6 +21,14 @@ describe Fieldbook do
       expect(@new_book).to respond_to :get_sheet
     end
 
+    it 'should have a method named list_sheets' do
+      expect(@new_book).to respond_to :list_sheets
+    end
+
+    it 'should have a method named delete_record' do
+      expect(@new_book).to respond_to :delete_record
+    end
+
     describe "#get_sheet" do
       it 'should return array' do
         expect(@new_book.get_sheet('sessions')).to be_an_instance_of Array
@@ -33,12 +41,27 @@ describe Fieldbook do
       end
     end
     describe "#list_sheets" do
-      it 'should exist' do
-        expect(@new_book).to respond_to :list_sheets
-      end
       it 'should return an array of sheets' do
         expect(@new_book.list_sheets).to be_an_instance_of Array
         expect(@new_book.list_sheets.count).to be > 0
+      end
+    end
+    describe "#delete_record" do
+      it "should delete a record using it's record id from the specified sheet" do
+        expect(@new_book.delete_record('attendees', 11).code).to eq 204
+      end
+    end
+    describe "#create_record" do
+      it "should create a new record using a sheet name and record id" do
+
+        properties = {
+            name: "Larry Blair",
+            company: "Comcast",
+            email: "larry.blair@comcast.com",
+            paid: "yes"
+          }
+
+        expect(@new_book.create_record('attendees', properties).code).to eq 201
       end
     end
   end
